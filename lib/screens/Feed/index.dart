@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:instacopy/widgets/appbar.dart';
+import 'package:instacopy/widgets/Avatar.dart';
 
 var images = [
   'https://previews.123rf.com/images/mimagephotography/mimagephotography1504/mimagephotography150400180/38947293-close-up-portrait-of-a-happy-young-boy-with-curly-hair-smiling-against-white-background.jpg',
@@ -16,70 +16,58 @@ var images = [
 ];
 
 class Feed extends StatefulWidget {
-  Feed({Key key}) : super(key: key);
+  final PageController _pageController;
+  Feed(
+    this._pageController, {
+    Key key,
+  }) : super(key: key);
 
   @override
-  _FeedState createState() => _FeedState();
+  _FeedState createState() => _FeedState(this._pageController);
 }
 
 class _FeedState extends State<Feed> {
+  final PageController _pageController;
+
+  _FeedState(this._pageController);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.black,
-        appBar: HomeBar(),
+        appBar: AppBar(
+          backgroundColor: Color(0xFF333333),
+          leading: IconButton(
+            onPressed: () =>
+                {_pageController.animateToPage(0, duration: Duration(milliseconds: 250), curve: Curves.easeInOut)},
+            icon: Icon(Icons.camera_alt),
+          ),
+          title: Text(
+            'Instacopy',
+            style: TextStyle(color: Colors.white, fontSize: 28, fontFamily: "Billabong"),
+          ),
+          actions: [
+            IconButton(
+              icon: Transform.translate(
+                offset: Offset(5, -2.5),
+                child: Transform.rotate(
+                  angle: -.5,
+                  child: Icon(
+                    Icons.send,
+                    color: Colors.white,
+                    size: 24.0,
+                    semanticLabel: 'Text to announce in accessibility modes',
+                  ),
+                ),
+              ),
+              onPressed: () =>
+                  {_pageController.animateToPage(2, duration: Duration(milliseconds: 250), curve: Curves.easeInOut)},
+            )
+          ],
+        ),
         body: Flex(direction: Axis.vertical, children: <Widget>[
-          Stories(),
           FeedList(),
         ]));
-  }
-}
-
-class Storie extends StatefulWidget {
-  final String url;
-  final double size;
-  final bool showText;
-  const Storie({Key key, this.url, this.size = 32.5, this.showText = true}) : super(key: key);
-  @override
-  _StorieState createState() => _StorieState(url, size, this.showText);
-}
-
-class _StorieState extends State<Storie> {
-  final String url;
-  final double size;
-  final bool showText;
-  _StorieState(String this.url, this.size, this.showText);
-
-  @override
-  Widget build(BuildContext context) {
-    debugPrint('size: ' + this.size.toString());
-    return GestureDetector(
-      onTap: () => {debugPrint('touched!')},
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 12.5, vertical: 7.5),
-        child: Flex(direction: showText ? Axis.vertical : Axis.horizontal, children: [
-          CircleAvatar(
-            backgroundColor: Colors.red,
-            radius: this.size,
-            child: CircleAvatar(
-                radius: this.size - 2.5,
-                backgroundColor: Colors.black,
-                child: CircleAvatar(
-                  radius: this.size - 4.5,
-                  backgroundImage: NetworkImage(this.url, scale: 1.5),
-                )),
-          ),
-          Center(
-              child: Container(
-            margin: EdgeInsets.only(top: 2.5, right: 10, left: 10),
-            child: Text(
-              "Fulano",
-              style: TextStyle(color: Colors.white),
-            ),
-          )),
-        ]),
-      ),
-    );
   }
 }
 
@@ -100,17 +88,28 @@ class _StoriesState extends State<Stories> {
         ),
       ),
       height: 100,
-      child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 12.5),
-        scrollDirection: Axis.horizontal,
-        children: [
-          ...images.map((e) => Storie(
-                url: e,
-                showText: true,
-                // size: 32.5,
-              ))
-        ],
-      ),
+      child: ListView.builder(
+          addAutomaticKeepAlives: true,
+          padding: EdgeInsets.symmetric(horizontal: 12.5),
+          scrollDirection: Axis.horizontal,
+          itemCount: images.length,
+          itemBuilder: (context, i) {
+            void onPress = () => {debugPrint('Do something')};
+
+            return Column(
+              children: [
+                Avatar(
+                  url: images[i],
+                ),
+                Center(
+                  child: Text(
+                    "Fulano",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              ],
+            );
+          }),
     );
   }
 }
@@ -127,12 +126,13 @@ class _FeedListState extends State<FeedList> {
   Widget build(BuildContext context) {
     return Flexible(
       flex: 1,
-      child: ListView(
-        children: <Widget>[
-          ...images.map((e) => FeedItem(
-                url: e,
-              ))
-        ],
+      child: ListView.builder(
+        itemCount: images.length + 1,
+        itemBuilder: (_, i) => i == 0
+            ? Stories()
+            : FeedItem(
+                url: images[i],
+              ),
       ),
     );
   }
@@ -162,7 +162,12 @@ class _FeedItemState extends State<FeedItem> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Storie(url: url, showText: false, size: 20),
+              Row(
+                children: [
+                  Avatar(url: url, size: 20),
+                  Text("Fulano", style: TextStyle(color: Colors.white)),
+                ],
+              ),
               IconButton(
                 onPressed: () => {debugPrint('ok')},
                 icon: Icon(

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "794171482183",
+    "firebase_url": "https://lorem-ipsum-abdd2.firebaseio.com",
+    "project_id": "lorem-ipsum-abdd2",
+    "storage_bucket": "lorem-ipsum-abdd2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794171482183:android:f3fd181186ad65d78e1162",
+        "android_client_info": {
+          "package_name": "dev.dhoncrisley.instacopy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "794171482183-ndc0ifohj0arl5f7v4eavhgejm70dgmh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwgwmRjc-uiN5fa0au0GC_F1dEwLro0uE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "794171482183-ndc0ifohj0arl5f7v4eavhgejm70dgmh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

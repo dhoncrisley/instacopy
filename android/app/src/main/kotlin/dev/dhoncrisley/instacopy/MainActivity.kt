@@ -1,4 +1,4 @@
-package com.example.instacopy
+package dev.dhoncrisley.instacopy
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: PageView(
         controller: _pageController,
-        children: [Camera(), Feed(), Messages()],
+        children: [Camera(), Feed(this._pageController), Messages(this._pageController)],
       ),
       bottomNavigationBar:
           buildBottomNavigationBar(), // This trailing comma makes auto-formatting nicer for build methods.

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instacopy/screens/home/index.dart';
-
-
+import 'package:instacopy/services/notifications.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,8 +8,14 @@ void main() {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  PushNotificationsManager _push;
+
+
   @override
   Widget build(BuildContext context) {
+    _push = PushNotificationsManager();
+    _push.init();
+    print('ok');
     return MaterialApp(
       title: 'Instagram',
       theme: ThemeData(
@@ -30,7 +35,6 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Home(title: 'Instagram'),
-      
     );
   }
 }
