@@ -10,6 +10,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   PushNotificationsManager _push;
 
+  MyApp(){
+    
+  }
 
   @override
   Widget build(BuildContext context) {
